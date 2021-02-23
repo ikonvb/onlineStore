@@ -1,12 +1,17 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head th:replace="/fragments/head"></head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="/fragments/head"></div>
 <body>
 
 <nav th:replace="/fragments/nav :: nav-admin"></nav>
+
 <div class="container">
+
     <h1 class="display-2 mb-5">Add a page</h1>
     <a href="/admin/pages" class="btn btn-primary mb-3">Back to pages</a>
+
+    <div th:if="${message}" th:text="${message}" th:class="${'alert' + alertClass}"></div>
 
     <form method="post" th:action="@{/admin/pages/add}" th:object="${page}">
 

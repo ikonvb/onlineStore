@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="/fragments/head"></head>
 <body>
 
@@ -7,6 +7,8 @@
 <div class="container">
     <h1 class="display-2 mb-5">Admin pages</h1>
     <a href="/admin/pages/add" class="btn btn-primary mb-3">Add new page</a>
+
+    <div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"></div>
 
     <div th:if="${!pages.empty}">
         <table class="table">
@@ -21,8 +23,6 @@
                 <td th:text="${page.slug}"></td>
                 <td><a th:href="@{'/admin/pages/edit/' + ${page.id}}">Edit</a></td>
                 <td><a th:href="@{'/admin/pages/delete/' + ${page.id}}">Delete</a></td>
-
-
             </tr>
         </table>
     </div>
