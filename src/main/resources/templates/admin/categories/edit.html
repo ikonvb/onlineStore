@@ -8,26 +8,27 @@
 
 <div class="container">
 
-    <h1 class="display-2 mb-5">Add a category</h1>
+    <h1 class="display-2 mb-5" th:text="'Edit ' + (${categoryName} ?: ${category.name})"></h1>
 
     <a href="/admin/categories" class="btn btn-primary mb-3">Back to categories</a>
 
     <div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"></div>
 
-    <form method="post" th:action="@{/admin/categories/add}" th:object="${category}">
+    <form method="post" th:action="@{/admin/categories/edit}" th:object="${category}">
 
         <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
             There are errors
         </div>
 
         <div class="form-group mb-3">
-            <label th:for="name">Name</label>
-            <!--<input id="name" type="text" class="form-control" th:field="*{name}" placeholder="Name">-->
-            <input type="text" class="form-control" th:id="name" th:name="name" th:value="${categoryInfo?.name}" placeholder="Name">
+            <label for="name">Name</label>
+            <input id="name" type="text" class="form-control" th:field="*{name}" th:value="${category.name}" placeholder="Name">
             <span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
         </div>
 
-        <button class="btn btn-danger">Add</button>
+        <input type="hidden" th:field="*{id}" th:value="${category.id}">
+
+        <button class="btn btn-danger">Edit</button>
 
     </form>
 
