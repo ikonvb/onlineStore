@@ -22,7 +22,7 @@
 
         <div class="form-group mb-3">
             <label for="title">Title</label>
-            <input id="title" type="text" class="form-control" th:field="*{title}" th:value="${page.title}" placeholder="Title">
+            <input id="title" type="text" class="form-control" th:field="*{title}" placeholder="Title">
             <span class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
         </div>
 
