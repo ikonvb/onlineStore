@@ -60,7 +60,7 @@ public class AdminCategoriesController {
             category.setSlug(slug);
             categoryRepository.save(category);
         }
-        return "redirect:/admin/categories/add";
+        return "redirect:/admin/categories";
     }
 
     @GetMapping("/edit/{id}")
@@ -96,6 +96,15 @@ public class AdminCategoriesController {
             category.setSlug(slug);
             categoryRepository.save(category);
         }
+        return "redirect:/admin/categories";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable int id, RedirectAttributes redirectAttributes) {
+
+        categoryRepository.deleteById(id);
+        redirectAttributes.addFlashAttribute("message", "Category deleted");
+        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
         return "redirect:/admin/categories";
     }
 }

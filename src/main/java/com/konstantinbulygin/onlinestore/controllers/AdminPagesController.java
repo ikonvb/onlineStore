@@ -85,7 +85,7 @@ public class AdminPagesController {
         redirectAttributes.addFlashAttribute("message", "Page edited");
         redirectAttributes.addFlashAttribute("alertClass", "alert-success");
 
-        String slug = page.getSlug() == "" ? page.getTitle().toLowerCase().replace(" ", "-") : page.getSlug().toLowerCase().replace(" ", "");
+        String slug = page.getSlug() == "" ? page.getTitle().toLowerCase().replace(" ", "-") : page.getSlug().toLowerCase().replace(" ", "-");
 
         Page slugExists = pageRepository.findBySlugAndIdNot(slug, page.getId());
 
