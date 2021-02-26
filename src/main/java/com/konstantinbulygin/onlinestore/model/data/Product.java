@@ -5,6 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
@@ -27,10 +28,13 @@ public class Product {
 
     private String image;
 
+    @Pattern(regexp = "^[0-9]+([.][0-9]{1,2})?", message = "Expected format: 5, 5.99")
     private String price;
 
+    @Pattern(regexp = "^[1-9][0-9]*", message = "Please choose a category")
     private String category_id;
 
+    @Column(updatable = false)
     @CreationTimestamp
     private LocalDateTime created_at;
 
