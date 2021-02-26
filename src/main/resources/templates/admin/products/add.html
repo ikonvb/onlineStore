@@ -34,7 +34,9 @@
         </div>
 
         <div class="form-group mb-3">
-            <input type="file" class="form-control" th:name="file">
+            <label th:for="file">Image</label>
+            <input type="file" class="form-control mb-3" th:name="file" th:id="file">
+            <img src="#" id="imgPreview1">
         </div>
 
         <div class="form-group mb-3">
@@ -59,5 +61,15 @@
 </div>
 
 <footer th:replace="/fragments/footer"></footer>
+
+<script>
+
+    $(function () {
+        $("#file").change(function () {
+            readUrl(this, '1');
+        });
+    });
+
+</script>
 </body>
 </html>
