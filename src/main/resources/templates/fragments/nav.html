@@ -3,8 +3,8 @@
         <a class="navbar-brand" href="/">Online store</a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
+                <li class="nav-item" th:each="page: ${commonPages}" th:if="${page.slug != 'home'}">
+                    <a class="nav-link" th:href="@{'/' + ${page.slug}}" th:text="${page.title}"></a>
                 </li>
             </ul>
         </div>
