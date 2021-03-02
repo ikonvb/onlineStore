@@ -50,11 +50,11 @@
 
         <div class="form-group mb-3">
             <label th:for="category">Category</label>
-            <select id="category" class="form-control" th:field="*{category_id}">
+            <select id="category" class="form-control" th:field="*{categoryId}">
                 <option th:value="0">Choose a category</option>
                 <option th:each="cat: ${categories}" th:value="${cat.id}" th:text="${cat.name}"></option>
             </select>
-            <span class="error" th:if="${#fields.hasErrors('category_id')}" th:errors="*{category_id}"></span>
+            <span class="error" th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}"></span>
         </div>
 
         <input type="hidden" th:field="*{id}" th:value="${product.id}">
