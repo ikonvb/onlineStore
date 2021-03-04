@@ -34,11 +34,12 @@
                     <div class="form-group mb-3">
                         <label for="confirmpassword">Confirm password:</label>
                         <input id="confirmpassword" type="password" class="form-control" th:field="*{confirmPassword}">
+                        <span class="error" th:if="${passwordProblem}">Passwords do not match</span>
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="email">E-mail:</label>
-                        <input id="email" type="email" class="form-control" th:field="*{email}" placeholder="E-mail">
+                        <input id="email" type="email" class="form-control" th:field="*{email}" placeholder="E-mail" required>
                         <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
                     </div>
 
