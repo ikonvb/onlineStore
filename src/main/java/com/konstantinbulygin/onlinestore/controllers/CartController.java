@@ -47,7 +47,7 @@ public class CartController {
         int size = 0;
         double total = 0;
 
-        for (Cart value: cart.values()) {
+        for (Cart value : cart.values()) {
             size += value.getQuantity();
             total += value.getQuantity() * Double.parseDouble(value.getPrice());
         }
@@ -56,5 +56,19 @@ public class CartController {
         model.addAttribute("etotal", total);
 
         return "cart_view";
+    }
+
+
+    @RequestMapping("/view")
+    public String view(HttpSession session, Model model) {
+
+        if (session.getAttribute("cart") == null) {
+            return "redirect:/";
+        }
+
+        HashMap<Integer, Cart> cart = (HashMap<Integer, Cart>) session.getAttribute("cart");
+        model.addAttribute("cart", cart);
+
+        return "cart";
     }
 }
