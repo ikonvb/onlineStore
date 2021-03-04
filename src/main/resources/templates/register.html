@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/head"></head>
+<body>
+
+<nav th:replace="/fragments/nav :: nav-front"></nav>
+
+<div class="container-fluid mt-5">
+    <div class="row">
+        <div th:replace="/fragments/categories"></div>
+        <div class="col">
+            <div class="col-6">
+                <h3 class="display-4">Registration</h3>
+
+                <form method="post" th:action="@{/register}" th:object="${user}">
+
+                    <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                        There are errors
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="username">User name:</label>
+                        <input id="username" type="text" class="form-control" th:field="*{username}"
+                               placeholder="Username">
+                        <span class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="password">Password:</label>
+                        <input id="password" type="text" class="form-control" th:field="*{password}">
+                        <span class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="confirmpassword">Confirm password:</label>
+                        <input id="confirmpassword" type="password" class="form-control" th:field="*{confirmPassword}">
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="email">E-mail:</label>
+                        <input id="email" type="email" class="form-control" th:field="*{email}" placeholder="E-mail">
+                        <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="phonenumber">Phone number:</label>
+                        <input id="phonenumber" type="text" class="form-control" th:field="*{phoneNumber}"
+                               placeholder="Phone number">
+                        <span class="error" th:if="${#fields.hasErrors('phoneNumber')}"
+                              th:errors="*{phoneNumber}"></span>
+                    </div>
+
+                    <button class="btn btn-danger">Register</button>
+
+                </form>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="/fragments/footer"></footer>
+</body>
+</html>
