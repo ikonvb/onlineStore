@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,7 +26,11 @@ public class Util {
     }
 
     @ModelAttribute
-    public void sharedData(Model model, HttpSession session) {
+    public void sharedData(Model model, HttpSession session, Principal principal) {
+
+        if (principal != null) {
+            model.addAttribute("principal", principal.getName());
+        }
 
         List<Page> pages = pageRepository.findAll();
         List<Category> categories = categoryRepository.findAll();
