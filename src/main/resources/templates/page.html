@@ -3,11 +3,11 @@
 <head th:replace="fragments/head :: head"></head>
 <body>
 
-<nav th:replace="/fragments/nav :: nav-front"></nav>
+<nav th:replace="fragments/nav :: nav-front"></nav>
 
 <div class="container-fluid mt-5">
     <div class="row">
-        <div th:replace="/fragments/categories"></div>
+        <div th:replace="fragments/categories :: categories"></div>
         <div class="col">
             <div class="col-7" th:utext="${page.content}"></div>
             <div class="col"></div>
@@ -15,6 +15,6 @@
     </div>
 </div>
 
-<footer th:replace="/fragments/footer"></footer>
+<footer th:replace="fragments/footer :: footer"></footer>
 </body>
 </html>
