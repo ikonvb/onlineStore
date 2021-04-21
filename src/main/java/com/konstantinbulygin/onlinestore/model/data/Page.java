@@ -15,12 +15,12 @@ public class Page {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Size(min = 3, message = "Title must be at least 3 characters long")
+    @Size(min = 3, max = 45, message = "Title must be at least 3 characters long")
     private String title;
 
     private String slug;
 
-    @Size(min = 5, message = "Content must be at least 5 characters long")
+    @Size(min = 5, max = 255 , message = "Content must be at least 5 characters long")
     private String content;
 
 }
