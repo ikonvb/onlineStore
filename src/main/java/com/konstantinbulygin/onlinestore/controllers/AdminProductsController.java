@@ -1,9 +1,12 @@
 package com.konstantinbulygin.onlinestore.controllers;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.konstantinbulygin.onlinestore.model.CategoryRepository;
 import com.konstantinbulygin.onlinestore.model.ProductRepository;
 import com.konstantinbulygin.onlinestore.model.data.Category;
 import com.konstantinbulygin.onlinestore.model.data.Product;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,15 +19,26 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin/products")
 public class AdminProductsController {
+
+    @Value("${cloud_name}")
+    private String cloudName;
+
+    @Value("${api_key}")
+    private String apiKey;
+
+    @Value("${api_secret}")
+    private String apiSecret;
+
+    private final String secureUrl = "secure_url";
+
+    private final Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap("cloud_name", "korustlt", "api_key", "619614386456773", "api_secret", "kAYZ3cfRWBRsBPyX_miIRL0PKEI"));
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
@@ -60,6 +74,10 @@ public class AdminProductsController {
         model.addAttribute("count", count);
         model.addAttribute("page", page);
 
+        String energy = System.getenv().get("cloud_name");
+
+        System.out.println("[[[[[[[[[[[[[[[[[" + energy + "]]]]]]]]]]]]]]]]]");
+
         return "admin/products/index";
     }
 
@@ -85,11 +103,11 @@ public class AdminProductsController {
         boolean isFileOk = false;
         byte[] fileBytes = null;
         String fileName = null;
-        Path path = null;
+
         try {
             fileBytes = file.getBytes();
             fileName = file.getOriginalFilename();
-            path = Paths.get("src\\main\\resources\\static\\media\\" + fileName);
+
 
             assert fileName != null;
 
@@ -117,15 +135,38 @@ public class AdminProductsController {
             redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
             redirectAttributes.addFlashAttribute("product", product);
         } else {
-            product.setSlug(slug);
-            product.setImage(fileName);
-            productRepository.save(product);
+
+
+//            Cloudinary cloudinary = Singleton.getCloudinary();
+            //start of Cloudinary functionality
+//            Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+//                    "cloud_name", cloudName,
+//                    "api_key", apiKey,
+//                    "api_secret", apiSecret));
+
+            Map params = ObjectUtils.asMap(
+                    "public_id", fileName,
+                    "overwrite", true,
+                    "notification_url", "https://mysite.com/notify_endpoint",
+                    "resource_type", "image"
+            );
+
+            Map uploadResult = null;
 
             try {
-                Files.write(path, fileBytes);
+                uploadResult = cloudinary.uploader().upload(fileBytes, params);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            //end of Cloudinary functionality
+
+
+            product.setSlug(slug);
+            product.setImage(fileName);
+
+            product.setImageUrl(uploadResult.get(secureUrl).toString());
+
+            productRepository.save(product);
         }
         return "redirect:/admin/products/add";
     }
@@ -157,8 +198,6 @@ public class AdminProductsController {
         boolean isFileOk = false;
         byte[] fileBytes = fileBytes = file.getBytes();
         String fileName = fileName = file.getOriginalFilename();
-        Path path = Paths.get("src\\main\\resources\\static\\media\\" + fileName);
-
 
         if (!file.isEmpty()) {
             if (fileName.endsWith("jpg") || fileName.endsWith("png")) {
@@ -184,16 +223,42 @@ public class AdminProductsController {
             redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
             redirectAttributes.addFlashAttribute("product", product);
         } else {
+
             product.setSlug(slug);
 
             if (!file.isEmpty()) {
-                Path path1 = Paths.get("src\\main\\resources\\static\\media\\" + currentProduct.getImage());
-                Files.delete(path1);
+                //todo delete image from cloudinary
+
+
+                //start of Cloudinary functionality
+//                Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+//                        "cloud_name", "korustlt",
+//                        "api_key", "619614386456773",
+//                        "api_secret", "kAYZ3cfRWBRsBPyX_miIRL0PKEI"));
+
+                Map params = ObjectUtils.asMap(
+                        "public_id", fileName,
+                        "overwrite", true,
+                        "notification_url", "https://mysite.com/notify_endpoint",
+                        "resource_type", "image"
+                );
+
+                Map uploadResult = null;
+
+                try {
+                    uploadResult = cloudinary.uploader().upload(fileBytes, params);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                //end of Cloudinary functionality
+
+                product.setImageUrl(uploadResult.get(secureUrl).toString());
                 product.setImage(fileName);
-                Files.write(path, fileBytes);
+
             } else {
                 product.setImage(currentProduct.getImage());
             }
+
             productRepository.save(product);
         }
         return "redirect:/admin/products/edit/" + product.getId();
@@ -202,17 +267,9 @@ public class AdminProductsController {
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable int id, RedirectAttributes redirectAttributes) {
 
-        try {
-            Product product = productRepository.getOne(id);
-            Product currentProduct = productRepository.getOne(product.getId());
-            Path path1 = Paths.get("src\\main\\resources\\static\\media\\" + currentProduct.getImage());
-            Files.delete(path1);
-            productRepository.deleteById(id);
-            redirectAttributes.addFlashAttribute("message", "Product deleted");
-            redirectAttributes.addFlashAttribute("alertClass", "alert-success");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        productRepository.deleteById(id);
+        redirectAttributes.addFlashAttribute("message", "Product deleted");
+        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
 
         return "redirect:/admin/products";
     }

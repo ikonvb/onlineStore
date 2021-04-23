@@ -28,6 +28,9 @@ public class Product {
 
     private String image;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @Pattern(regexp = "^[0-9]+([.][0-9]{1,2})?", message = "Expected format: 5, 5.99")
     private String price;
 
