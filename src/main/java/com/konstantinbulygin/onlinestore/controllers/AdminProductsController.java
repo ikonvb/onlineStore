@@ -150,7 +150,7 @@ public class AdminProductsController {
             productRepository.save(product);
         }
 //        return "redirect:/admin/products/add";
-        return "admin/products/add";
+        return "redirect:/admin/products";
     }
 
     @GetMapping("/edit/{id}")
