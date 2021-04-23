@@ -1,12 +1,12 @@
 package com.konstantinbulygin.onlinestore.controllers;
 
 import com.cloudinary.Cloudinary;
+import com.cloudinary.Singleton;
 import com.cloudinary.utils.ObjectUtils;
 import com.konstantinbulygin.onlinestore.model.CategoryRepository;
 import com.konstantinbulygin.onlinestore.model.ProductRepository;
 import com.konstantinbulygin.onlinestore.model.data.Category;
 import com.konstantinbulygin.onlinestore.model.data.Product;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,21 +27,13 @@ import java.util.Map;
 @RequestMapping("/admin/products")
 public class AdminProductsController {
 
-    @Value("${cloud_name}")
-    private String cloudName;
-
-    @Value("${api_key}")
-    private String apiKey;
-
-    @Value("${api_secret}")
-    private String apiSecret;
-
-    private final String secureUrl = "secure_url";
-
-    private final Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap("cloud_name", "korustlt", "api_key", "619614386456773", "api_secret", "kAYZ3cfRWBRsBPyX_miIRL0PKEI"));
-
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final int itemPerPage = 10;
+
+    //for Cloudinary functionality
+    private final String secureUrl = "secure_url";
+    private final Cloudinary cloudinary = Singleton.getCloudinary();
 
     public AdminProductsController(ProductRepository productRepository, CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
@@ -51,10 +43,10 @@ public class AdminProductsController {
     @GetMapping
     public String index(Model model, @RequestParam(value = "page", required = false) Integer p) {
 
-        int perPage = 6;
+        //pagination functionality
         int page = (p != null) ? p : 0;
 
-        Pageable pageable = PageRequest.of(page, perPage);
+        Pageable pageable = PageRequest.of(page, itemPerPage);
         Page<Product> products = productRepository.findAll(pageable);
         List<Category> categories = categoryRepository.findAll();
 
@@ -65,18 +57,14 @@ public class AdminProductsController {
         }
 
         long count = productRepository.count();
-        double pageCounter = Math.ceil((double) count / (double) perPage);
+        double pageCounter = Math.ceil((double) count / (double) itemPerPage);
 
         model.addAttribute("categoriesMap", categoriesMap);
         model.addAttribute("products", products);
         model.addAttribute("pageCount", (int) pageCounter);
-        model.addAttribute("perPage", perPage);
+        model.addAttribute("perPage", itemPerPage);
         model.addAttribute("count", count);
         model.addAttribute("page", page);
-
-        String energy = System.getenv().get("cloud_name");
-
-        System.out.println("[[[[[[[[[[[[[[[[[" + energy + "]]]]]]]]]]]]]]]]]");
 
         return "admin/products/index";
     }
@@ -93,6 +81,7 @@ public class AdminProductsController {
     @PostMapping("/add")
     public String add(@Valid Product product, BindingResult bindingResult, MultipartFile file, RedirectAttributes redirectAttributes, Model model) {
 
+        //retrieve list of categories
         List<Category> categories = categoryRepository.findAll();
 
         if (bindingResult.hasErrors()) {
@@ -104,10 +93,10 @@ public class AdminProductsController {
         byte[] fileBytes = null;
         String fileName = null;
 
+        //try to read files
         try {
             fileBytes = file.getBytes();
             fileName = file.getOriginalFilename();
-
 
             assert fileName != null;
 
@@ -127,6 +116,7 @@ public class AdminProductsController {
         Product productExists = productRepository.findBySlug(slug);
 
         if (!isFileOk) {
+            //if adding file has exception
             redirectAttributes.addFlashAttribute("message", "Image must be a jpg or png format");
             redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
             redirectAttributes.addFlashAttribute("product", product);
@@ -136,14 +126,7 @@ public class AdminProductsController {
             redirectAttributes.addFlashAttribute("product", product);
         } else {
 
-
-//            Cloudinary cloudinary = Singleton.getCloudinary();
-            //start of Cloudinary functionality
-//            Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-//                    "cloud_name", cloudName,
-//                    "api_key", apiKey,
-//                    "api_secret", apiSecret));
-
+            //cloudinary specific functionality
             Map params = ObjectUtils.asMap(
                     "public_id", fileName,
                     "overwrite", true,
@@ -160,15 +143,14 @@ public class AdminProductsController {
             }
             //end of Cloudinary functionality
 
-
+            //save product to db
             product.setSlug(slug);
             product.setImage(fileName);
-
             product.setImageUrl(uploadResult.get(secureUrl).toString());
-
             productRepository.save(product);
         }
-        return "redirect:/admin/products/add";
+//        return "redirect:/admin/products/add";
+        return "admin/products/add";
     }
 
     @GetMapping("/edit/{id}")
@@ -196,8 +178,8 @@ public class AdminProductsController {
         }
 
         boolean isFileOk = false;
-        byte[] fileBytes = fileBytes = file.getBytes();
-        String fileName = fileName = file.getOriginalFilename();
+        byte[] fileBytes = file.getBytes();
+        String fileName = file.getOriginalFilename();
 
         if (!file.isEmpty()) {
             if (fileName.endsWith("jpg") || fileName.endsWith("png")) {
@@ -228,13 +210,6 @@ public class AdminProductsController {
 
             if (!file.isEmpty()) {
                 //todo delete image from cloudinary
-
-
-                //start of Cloudinary functionality
-//                Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-//                        "cloud_name", "korustlt",
-//                        "api_key", "619614386456773",
-//                        "api_secret", "kAYZ3cfRWBRsBPyX_miIRL0PKEI"));
 
                 Map params = ObjectUtils.asMap(
                         "public_id", fileName,
