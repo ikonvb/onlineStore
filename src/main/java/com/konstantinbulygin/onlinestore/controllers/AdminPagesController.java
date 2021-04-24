@@ -97,7 +97,6 @@ public class AdminPagesController {
             page.setSlug(slug);
             pageRepository.save(page);
         }
-        //return "redirect:/admin/pages/edit/" + page.getId();
         return "redirect:/admin/pages";
     }
 

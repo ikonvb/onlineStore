@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class PagesController {
 
-    private PageRepository pageRepository;
+    private final PageRepository pageRepository;
 
     public PagesController(PageRepository pageRepository) {
         this.pageRepository = pageRepository;

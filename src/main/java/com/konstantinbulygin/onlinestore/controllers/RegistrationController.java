@@ -19,7 +19,7 @@ public class RegistrationController {
 
     private final UserRepository userRepository;
     private final AdminRepository adminRepository;
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     public RegistrationController(UserRepository userRepository, AdminRepository adminRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;

@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/admin/categories")
 public class AdminCategoriesController {
 
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
     public AdminCategoriesController(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
