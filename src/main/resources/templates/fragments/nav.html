@@ -1,15 +1,22 @@
-<nav th:fragment="nav-front" class="navbar navbar-expand-lg navbar-dark bg-dark" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<head th:replace="fragments/head :: head"></head>
+
+<nav th:fragment="nav-front" class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
 
     <a class="navbar-brand" href="/">Online store</a>
 
     <div class="collapse navbar-collapse">
+
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item active" th:each="page: ${commonPages}" th:if="${page.slug != 'home'}">
                 <a class="nav-link" th:href="@{'/' + ${page.slug}}" th:text="${page.title}"></a>
             </li>
         </ul>
 
-        <ul class="float-right navbar-nav" th:if="${principal == null}">
+        <ul class="float-right navbar-nav mr-auto mt-2 mt-lg-0" th:if="${principal == null}">
             <li class="nav-item active">
                 <a class="nav-link" th:href="@{/register}">Register</a>
             </li>
@@ -18,7 +25,7 @@
             </li>
         </ul>
 
-        <form th:if="${principal != null}" method="post" th:action="@{/logout}">
+        <form class="form-inline my-2 my-lg-0" th:if="${principal != null}" method="post" th:action="@{/logout}">
             <span class="text-white" th:text="${'Hi, ' + principal}"></span>
             <button class="btn btn-secondary">Logout</button>
         </form>
@@ -27,7 +34,7 @@
 
 </nav>
 
-<nav th:fragment="nav-admin" class="navbar navbar-expand-md navbar-dark bg-dark" xmlns:th="http://www.thymeleaf.org">
+<nav th:fragment="nav-admin" class="navbar navbar-expand-md navbar-dark bg-dark" id="navbarTogglerDemo02">
 
     <a class="navbar-brand" href="/">Home page</a>
 
@@ -52,3 +59,5 @@
     </div>
 
 </nav>
+
+</html>

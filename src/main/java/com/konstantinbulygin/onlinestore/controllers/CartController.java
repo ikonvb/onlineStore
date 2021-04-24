@@ -32,15 +32,15 @@ public class CartController {
 
         if (session.getAttribute("cart") == null) {
             HashMap<Integer, Cart> cart = new HashMap<>();
-            cart.put(id, new Cart(id, product.getName(), product.getPrice(), 1, product.getImage()));
+            cart.put(id, new Cart(id, product.getName(), product.getPrice(), 1, product.getImage(), product.getImageUrl()));
             session.setAttribute("cart", cart);
         } else {
             HashMap<Integer, Cart> cart = (HashMap<Integer, Cart>) session.getAttribute("cart");
             if (cart.containsKey(id)) {
                 int qty = cart.get(id).getQuantity();
-                cart.put(id, new Cart(id, product.getName(), product.getPrice(), ++qty, product.getImage()));
+                cart.put(id, new Cart(id, product.getName(), product.getPrice(), ++qty, product.getImage(), product.getImageUrl()));
             } else {
-                cart.put(id, new Cart(id, product.getName(), product.getPrice(), 1, product.getImage()));
+                cart.put(id, new Cart(id, product.getName(), product.getPrice(), 1, product.getImage(), product.getImageUrl()));
                 session.setAttribute("cart", cart);
             }
         }
@@ -80,7 +80,7 @@ public class CartController {
                 session.removeAttribute("cart");
             }
         } else {
-            cart.put(id, new Cart(id, product.getName(), product.getPrice(), --qty, product.getImage()));
+            cart.put(id, new Cart(id, product.getName(), product.getPrice(), --qty, product.getImage(), product.getImageUrl()));
         }
 
         String refererLink = httpServletRequest.getHeader("referer");

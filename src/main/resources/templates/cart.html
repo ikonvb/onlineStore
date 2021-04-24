@@ -26,7 +26,8 @@
                     <tr th:each="el: ${cart}">
                         <td th:text="${el.value.name}"></td>
                         <td>
-                            <img style="width: 100px;" th:src="@{'/media/'+ ${el.value.image}}"/>
+<!--                            <img style="width: 100px;" th:src="@{'/media/'+ ${el.value.image}}"/>-->
+                            <img style="width: 100px;" th:src="${el.value.imageUrl}"/>
                         </td>
                         <td>
                             <span th:text="${el.value.quantity}"></span>
