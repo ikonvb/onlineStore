@@ -244,6 +244,15 @@ public class AdminProductsController {
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable int id, RedirectAttributes redirectAttributes) {
 
+        //productRepository.deleteById(id);
+        try {
+
+            Product product = productRepository.getOne(id);
+            cloudinary.uploader().destroy(product.getImage(), ObjectUtils.emptyMap());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         productRepository.deleteById(id);
         redirectAttributes.addFlashAttribute("message", "Product deleted");
         redirectAttributes.addFlashAttribute("alertClass", "alert-success");
