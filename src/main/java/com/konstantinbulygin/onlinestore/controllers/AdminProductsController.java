@@ -29,7 +29,6 @@ public class AdminProductsController {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
-    private final int itemPerPage = 10;
 
     //for Cloudinary functionality
     private final String secureUrl = "secure_url";
@@ -46,6 +45,7 @@ public class AdminProductsController {
         //pagination functionality
         int page = (p != null) ? p : 0;
 
+        int itemPerPage = 10;
         Pageable pageable = PageRequest.of(page, itemPerPage);
         Page<Product> products = productRepository.findAll(pageable);
         List<Category> categories = categoryRepository.findAll();
@@ -137,7 +137,9 @@ public class AdminProductsController {
             Map uploadResult = null;
 
             try {
+
                 uploadResult = cloudinary.uploader().upload(fileBytes, params);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

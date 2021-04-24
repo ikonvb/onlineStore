@@ -26,7 +26,7 @@
             <tr th:each="product: ${products}">
                 <td th:text="${product.name}"></td>
                 <td>
-                    <img style="width: 100px;" th:src="${product.imageUrl}">
+                    <img th:src="${product.imageUrl}" width="100" height="100">
                 </td>
                 <td th:text="${categoriesMap[__${product.categoryId}__]} "></td>
                 <td th:text="'$ ' + ${product.price}"></td>
