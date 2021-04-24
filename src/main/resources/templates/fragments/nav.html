@@ -4,13 +4,13 @@
 
 <head th:replace="fragments/head :: head"></head>
 
-<nav th:fragment="nav-front" class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
+<nav th:fragment="nav-front" class="navbar navbar-expand-lg navbar-dark bg-dark" id="navbarTogglerDemo02">
 
     <a class="navbar-brand" href="/">Online store</a>
 
     <div class="collapse navbar-collapse">
 
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0">
             <li class="nav-item active" th:each="page: ${commonPages}" th:if="${page.slug != 'home'}">
                 <a class="nav-link" th:href="@{'/' + ${page.slug}}" th:text="${page.title}"></a>
             </li>
@@ -25,7 +25,7 @@
             </li>
         </ul>
 
-        <form class="form-inline my-2 my-lg-0" th:if="${principal != null}" method="post" th:action="@{/logout}">
+        <form class="float-right" th:if="${principal != null}" method="post" th:action="@{/logout}">
             <span class="text-white" th:text="${'Hi, ' + principal}"></span>
             <button class="btn btn-secondary">Logout</button>
         </form>
@@ -39,6 +39,7 @@
     <a class="navbar-brand" href="/">Home page</a>
 
     <div class="collapse navbar-collapse">
+
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
             <li class="nav-item">
                 <a class="nav-link" href="/admin/pages">Pages</a>
