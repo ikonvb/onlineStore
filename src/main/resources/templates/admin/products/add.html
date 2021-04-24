@@ -28,7 +28,7 @@
 
         <div class="form-group mb-3">
             <label th:for="descrip">Description</label>
-            <textarea id="descrip" rows="10" class="form-control" th:field="*{description}"
+            <textarea id="descrip" rows="7" class="form-control" th:field="*{description}"
                       placeholder="Description"></textarea>
             <span class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
         </div>
