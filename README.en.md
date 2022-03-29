@@ -1,17 +1,17 @@
 [RU](https://github.com/kostyaFrom/onlineStore/blob/master/README.md)
 # Online Store    
-[Рабочая версия на Heroku](https://online-store-spring-boot.herokuapp.com/)    
+[Working version on Heroku](https://online-store-spring-boot.herokuapp.com/)    
 
-**Описание**    
-Приложение с функционалом онлайн магазина. Имеется администраторский раздел для управления содержимым сайта
-, его наполнением и редактированием. Доступ к приложению осуществляется на основе ролей. Можно регистрировать новых пользователей. 
-Для доступа к администраторскому разделу следует войти с логином ***admin*** и паролем ***123456***.
-Администраторский функционал доступен по [ссылке.](https://online-store-spring-boot.herokuapp.com/admin/pages)   
+**Description**    
+An application with the functionality of an online store. There is an administrative section for managing the content of the site
+its content and editing. Access to the application is based on roles. You can register new users.    
+To access the admin section please log in with the login ***admin*** and password ***123456*** .    
+Administrative functionality is available at [link.](https://online-store-spring-boot.herokuapp.com/admin/pages)   
  
-Так как приложение развернуто на Heroku без подписки, следует подождать пока оно запуститься.
-Ожидание может составить от 10 секунд и более.
+Since the application is deployed on Heroku without a subscription you should wait until it starts.    
+The waiting time can be from 10 seconds or more.
    
-**Технологии:**    
+**Technologies:**    
 + Java 11.0.9
 + Maven 3.8.2
 + Spring Boot 2.6.3
