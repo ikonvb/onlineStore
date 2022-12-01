@@ -1,6 +1,5 @@
 package com.konstantinbulygin.onlinestore.controllers;
 
-import com.konstantinbulygin.onlinestore.model.AdminRepository;
 import com.konstantinbulygin.onlinestore.model.UserRepository;
 import com.konstantinbulygin.onlinestore.model.data.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,17 +17,15 @@ import javax.validation.Valid;
 public class RegistrationController {
 
     private final UserRepository userRepository;
-    private final AdminRepository adminRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public RegistrationController(UserRepository userRepository, AdminRepository adminRepository, PasswordEncoder passwordEncoder) {
+    public RegistrationController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.adminRepository = adminRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping
-    public String register(User user) {
+    public String register() {
         return "register";
     }
 

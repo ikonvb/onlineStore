@@ -5,8 +5,8 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.3</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>2.7.6</version>
+        <relativePath/>
     </parent>
     <groupId>com.konstantinbulygin</groupId>
     <artifactId>onlinestore</artifactId>
@@ -63,18 +63,15 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.cloudinary/cloudinary-http44 -->
         <dependency>
             <groupId>com.cloudinary</groupId>
             <artifactId>cloudinary-http44</artifactId>
-            <version>1.29.0</version>
+            <version>1.33.0</version>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.cloudinary/cloudinary-taglib -->
         <dependency>
             <groupId>com.cloudinary</groupId>
             <artifactId>cloudinary-taglib</artifactId>
-            <version>1.29.0</version>
+            <version>1.33.0</version>
         </dependency>
 
 
@@ -85,10 +82,11 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>3.0.0</version>
                 <configuration>
                     <excludes>
                         <exclude>
-                            <groupId>org.projectlombok</groupId>
+                            <groupId>org.project-lombok</groupId>
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
