@@ -25,7 +25,7 @@ public class RegistrationController {
     }
 
     @GetMapping
-    public String register() {
+    public String register(User user) {
         return "register";
     }
 
